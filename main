@@ -1,0 +1,49 @@
+import win32gui
+import win32con
+import win32api
+from time import sleep
+from datetime import datetime
+
+# LIST OF KEYS
+# http://www.kbdedit.com/manual/low_level_vk_list.html
+
+# Tibia:
+# O = Fazer runa branca  - 0x4F
+# 0 = fazer SD           - 0x30
+# F11 = Comer mushroom   - 0x7A
+# F8 = utani gran hur    - 0x77
+
+hwndMain = win32gui.FindWindow(None, "Tibia - Scooby Magia")
+if hwndMain == 0:
+    exit()
+
+option = input('1 - Auto Haste\n'
+               '2 - Auto Rune\n'
+               '')
+
+if option == '1':
+    while True:
+        win32api.SendMessage(hwndMain, win32con.WM_KEYDOWN, 0x77, 0)
+        sleep(21)
+
+elif option == '2':
+    count = 0
+    while True:
+        count = count + 1
+        now = datetime.now()
+        print(f'{count} - {now.hour}:{now.minute}:{now.second}')
+
+        # O = Fazer runa branca  - 0x4F
+        win32api.SendMessage(hwndMain, win32con.WM_KEYDOWN, 0x4F, 0)
+        sleep(3)
+
+        # 0 = fazer SD           - 0x30
+        win32api.PostMessage(hwndMain, win32con.WM_KEYDOWN, 0x30, 0)
+        sleep(1)
+
+        # F11 = Comer mushroom   - 0x7A
+        win32api.PostMessage(hwndMain, win32con.WM_KEYDOWN, 0x7A, 0)
+        sleep(1)
+        win32api.PostMessage(hwndMain, win32con.WM_KEYDOWN, 0x7A, 0)
+
+        sleep(120)
